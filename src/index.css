@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  /* https://stackoverflow.com/questions/41676054/how-to-add-fonts-to-create-react-app-based-projects */
+  font-family: 'WSJ';
+  src: local('WSJ'), url(./fonts/Old-Standard-Bold-Font/OldStandard-Bold.otf) format('opentype');
+}

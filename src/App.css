@@ -1,38 +1,102 @@
+:root {
+  --search-padding: 20px;
+  --search-height: 
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+header {
+  width: 100%;
+  padding-top: 10%;
+  font-family: "WSJ", Arial, sans-serif;
+  transition: .05s;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.subtitle {
+  color: grey;
+  letter-spacing: -2px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.searchForm {
+  width: 80%;
+  position: relative;
+  margin: auto;
+  padding-bottom: 2em;
 }
 
-.App-link {
-  color: #61dafb;
+.searchInput {
+  position: relative;
+  border: none;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: var(--search-padding);
+  border: 1px solid #999999;
+  font-family: "Arial", Arial, sans-serif;
+  outline: none;
+  padding: 0px var(--search-padding) 0px;
+  font-size: 14px;
+  width: 120px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+label {
+  margin-left: 15px;
+  margin-right: 5px;
+  color: grey;
+}
+
+.searchInput:hover {
+  box-shadow: 1px 1px 7px grey;
+  border: 1px solid #ffffff;
+}
+
+.searchInput:focus {
+  outline: none;
+}
+
+.option:hover {
+  /* background-color: #e6fbff; */
+  /* border: #e6fbff; */
+}
+
+.SearchBar {
+  width: 480px;
+  font-size: 20px;
+  padding: 5px var(--search-padding) 5px;
+}
+
+.RelatedTopics {
+  width: 50%;
+  padding-bottom: 2em;
+}
+
+/* .SearchOptions {
+  float: right;
+  width: 100px;
+} */
+
+.title {
+  font-family: "WSJ", Arial, sans-serif;
+}
+
+.SearchResult {
+  /* width: 80%; */
+  text-align: left;
+  margin-bottom: 2%;
+}
+
+mark.query{
+  padding: 0em;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  background-color: #eeca86;
+}
+
+p.line {
+  margin-bottom: 0px;
+  margin: 0px;
 }
