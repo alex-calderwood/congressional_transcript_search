@@ -10,34 +10,46 @@ class App extends React.Component {
     super(props);
 
     // Initial State
-    this.state = {'queryText': '', 'result': [], 'paddingTop': '80px', 'relatedTopics': []};
+    this.state = {'inputText': '', query: '', 'results': [], 'paddingTop': '80px', 'relatedTopics': []};
 
     // Called whenever the user types a new character into the search bar
     this.onChange = (event) => {
-      this.setState({'queryText': event.target.value});
+      this.setState({'inputText': event.target.value});
     }
 
     // Function called when user presses 'enter'
     this.onSubmit = (event) => {
       event.preventDefault(); // Don't reload the page
+
       
-      if (this.state.queryText === '') {
-        this.setState({'result': []})
+      if (this.state.inputText === '') {
+        this.setState({'results': []})
         this.setState({'relatedTopics': []})
+        this.setState({'query': ''})
         return;
       }
+
+      // Mock a topics query
+      let newTopics = this.getRelatedTopics(this.state.inputText)
+      this.setState({'query': this.state.inputText, 'relatedTopics': newTopics})
 
       // Mock a transcript query
       let mockDataFile = './data/CREC-2019-03-13-pt1-PgS1829.json'
       fetch(mockDataFile)
         .then((response) => response.json())
-        .then((response) => {
-          let text = response['text']
-          this.setState({'result': text.slice(0, 500)});
+        .then((json) => {
+          // console.log('json', json)
+          // let text = response[0]['text'] text.slice(0, 500)
+          let maxLength = 500;
+          for (let i = 0; i < json.length; i++) {
+            if (json[i].text.length > maxLength) {
+              json[i].text = json[i].text.slice(0, maxLength) + '...';
+            }
+          }
+
+          this.setState({'results': json});
         })
 
-      // Mock a topics query
-      this.state.relatedTopics = this.getRelatedTopics(this.state.queryText)
     }
   }
 
@@ -48,21 +60,22 @@ class App extends React.Component {
   }
 
    render () {
-    let fontSize = this.state.result.length > 0 ? '22px' : '44px' 
-    let padding = this.state.result.length > 0 ? '20px' : '100px';
-    let results = this.state.result.length > 0 ? [this.state.result, this.state.result] : []
+    let fontSize = this.state.results.length > 0 ? '22px' : '44px' 
+    let paddingTop = this.state.results.length > 0 ? '20px' : '120px';
+    let paddingBottom = this.state.results.length > 0 ? '20px' : '155px';
+    let results = this.state.results.length > 0 ? this.state.results : []
 
       return (
         <div className="App">
-          <header style={{fontSize: fontSize, paddingTop: padding, paddingBottom: padding}}>
+          <header style={{fontSize: fontSize, paddingTop: paddingTop, paddingBottom: paddingBottom}}>
             <span className="subtitle">THE WALL STREET JOURNAL</span><br/>
             Congressional Record Transcript Search 
           </header>
 
           <SearchBar onSubmit={this.onSubmit} onChange={this.onChange}/>
-          <RelatedTopics query={this.state.queryText} relatedTopics={this.state.relatedTopics}/>
-          <ResultList query={this.state.queryText} results={results}/>
-          
+          {/* <div className="RelatedTopics"></div> */}
+          <RelatedTopics query={this.state.query} relatedTopics={this.state.relatedTopics}/>
+          <ResultList query={this.state.inputText} results={results}/>
         </div>
       )
     };

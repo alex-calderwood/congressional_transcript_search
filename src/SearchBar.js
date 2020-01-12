@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
-import {Container, Row, Col} from 'react-bootstrap';
+// import {Container, Row, Col} from 'react-bootstrap';
 import DatePicker from 'react-datepicker' // See https://reactdatepicker.com/
-
+import SmartInput from './SmartInput'
 
 class SearchBar extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {from: new Date('March 4, 1789'), to: new Date()};
+    this.state = {from: new Date('Jan 1, 1900'), to: new Date()};
   }
 
   setFromDate(date) {
@@ -20,6 +20,10 @@ class SearchBar extends React.Component {
   }
   
   render () {
+
+    let speaker = this.state.speaker;
+    let onSpeakerChange = this.onSpeakerChange;
+
     return (
       <div className="searchForm">
         <form onSubmit={this.props.onSubmit}>
@@ -27,7 +31,7 @@ class SearchBar extends React.Component {
           </input>
         </form>
 
-        <label for='from'>from</label>
+        <label htmlFor='from'>from</label>
         <DatePicker
           name='from'
           className='searchInput option'
@@ -35,7 +39,7 @@ class SearchBar extends React.Component {
           selected={this.state.from}
           onChange={date => this.setFromDate(date)}/>
 
-        <label for='to'>to</label>
+        <label htmlFor='to'>to</label>
         <DatePicker
           name='to'
           className='searchInput option'
@@ -43,15 +47,16 @@ class SearchBar extends React.Component {
           selected={this.state.to}
           onChange={date => this.setToDate(date)}/>
 
-          <label for='speaker'>speaker</label>
-          <input className="option searchInput">
-            {/* <option selected>Any</option>
-            <option>Mr. Lee</option> */}
-          </input>
+          <br></br>
+          <label htmlFor='speaker'>speaker</label> 
+          <SmartInput name='speaker'></SmartInput>
+
+          
       </div>
       
     )
   }
 }
+
 
 export default SearchBar;
