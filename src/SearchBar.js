@@ -21,9 +21,6 @@ class SearchBar extends React.Component {
   
   render () {
 
-    let speaker = this.state.speaker;
-    let onSpeakerChange = this.onSpeakerChange;
-
     return (
       <div className="searchForm">
         <form onSubmit={this.props.onSubmit}>

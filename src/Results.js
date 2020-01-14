@@ -6,18 +6,24 @@ import Col from 'react-bootstrap/Col';
 
 class SearchResult extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {text: props.data.text};
+        this.expanded = false;
+    }
+
     render() {
-        let title = "DIRECTING THE REMOVAL OF UNITED STATES ARMED FORCES FROM HOSTILITIES IN THE REPUBLIC OF YEMEN THAT HAVE NOT BEEN AUTHORIZED BY CONGRESS"
-        let lines = this.props.data.text.split('\n')
+        let title = this.props.data.title;
         let query = [this.props.query];
 
-        let eachLine = (line) => {
-            return <p className="line">
-                    </p>
-        }
-
-        return <Row className="SearchResult">
+        return <div onClick={this.expandContext.bind(this)} className="SearchResult">
+            <Row >
                 <Col sm={4}>
+                    <Row>
+                        <Col>
+                            <span className="light italic">Speaker </span><a href="./" className="related">{this.props.data.speaker}</a> <span className="date">{this.props.data.date}</span>
+                        </Col>
+                    </Row>
                     <Row>
                         <Col>
                         <Highlighter 
@@ -28,20 +34,30 @@ class SearchResult extends React.Component {
                             textToHighlight={title}/>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col>
-                            <span className="speaker">Mr. LEE</span>
-                        </Col>
-                    </Row>
                 </Col>
                 <Col sm={8}>
 
                 <Highlighter highlightClassName="query"
                     searchWords={query}
                     autoEscape={true}
-                    textToHighlight={this.props.data.text}/>
+                    textToHighlight={this.state.text}/>
                 </Col>
+
             </Row>
+            <a onClick={this.expandContext.bind(this)} className="light italic context">Expand context {this.props.data.pages}...</a>
+        </div> 
+    }
+
+    expandContext() {
+        if (this.expanded) {
+            this.setState({text: this.props.data.text});
+            this.expanded = false;
+        } else {
+            fetch('./data/fullText.txt')
+                .then((response) => response.text())
+                .then(text => {this.setState({text: text})});
+            this.expanded = true;
+        }
     }
 }
 
@@ -52,8 +68,7 @@ export class ResultList extends React.Component {
     }
 
     render() {
-
-        let results = this.props.results.map((result) => <SearchResult query={this.props.query} data={result}/>)
+        let results = this.props.results.map((result, i) => <SearchResult key={i} query={this.props.query} data={result}/>)
 
         return <Container className='ResultList'>
                 {results}
@@ -69,21 +84,25 @@ export class RelatedTopics extends React.Component {
                 <Row>
                     {this.props.query !== '' ? 
                         <Col>
-                            <span className="light">Related Topics</span>
-                        </Col> 
-                        : ''}
-                    {this.props.relatedTopics.map(topic => {
-                        return <Col>
-                            <a href="./">{topic}</a>
+                            <span className="dark">Topics related to "{this.props.query}"</span>
+                            {this.props.relatedTopics.map((topic, i) => {
+                                return <Col key={i}>
+                                    <a className="related" href="./">{topic}</a>
+                                </Col>
+                            })}
                         </Col>
-                    })}
-                </Row>
-                <Row>
+                        : ''}
+                    
                     {this.props.query !== '' ? 
                         <Col>
-                    <span className="light">Speakers who mention "{this.props.query}"</span>
-                        </Col> 
-                        : ''}
+                            <span className="dark">Speakers who mention "{this.props.query}"</span>
+                            {this.props.speakerMentions.map((speaker, i) => {
+                                return <div key={i}>
+                                    <a className="related" href="./">{speaker}</a> <span className="light">3 times</span>
+                                </div>
+                            })}
+                        </Col>
+                    : ''}
                 </Row>
             </Container>
         </div>

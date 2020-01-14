@@ -10,7 +10,14 @@ class App extends React.Component {
     super(props);
 
     // Initial State
-    this.state = {'inputText': '', query: '', 'results': [], 'paddingTop': '80px', 'relatedTopics': []};
+    this.state = {
+      inputText: '', 
+      query: '', 
+      results: [],
+      paddingTop: '80px', 
+      relatedTopics: [],
+      speakerMentions: []
+    };
 
     // Called whenever the user types a new character into the search bar
     this.onChange = (event) => {
@@ -25,13 +32,19 @@ class App extends React.Component {
       if (this.state.inputText === '') {
         this.setState({'results': []})
         this.setState({'relatedTopics': []})
+        this.setState({'speakerMentions': []})
         this.setState({'query': ''})
         return;
       }
 
-      // Mock a topics query
+      // Mock a topics query, related speakers query
       let newTopics = this.getRelatedTopics(this.state.inputText)
-      this.setState({'query': this.state.inputText, 'relatedTopics': newTopics})
+      let speakers = this.getSpeakerMentions(this.state.inputText)
+      this.setState({
+        'query': this.state.inputText, 
+        'relatedTopics': newTopics,
+        'speakerMentions': speakers
+      })
 
       // Mock a transcript query
       let mockDataFile = './data/CREC-2019-03-13-pt1-PgS1829.json'
@@ -59,6 +72,12 @@ class App extends React.Component {
     return ['President', 'Trump', 'Russia', 'Ukraine', 'Iran'];
   }
 
+  getSpeakerMentions(query) {
+    // Mock a query to get speakers who mentioned the query text
+    return ["Bradley Byrne","Martha Roby","Mike Rogers"]
+
+  }
+
    render () {
     let fontSize = this.state.results.length > 0 ? '22px' : '44px' 
     let paddingTop = this.state.results.length > 0 ? '20px' : '120px';
@@ -73,8 +92,7 @@ class App extends React.Component {
           </header>
 
           <SearchBar onSubmit={this.onSubmit} onChange={this.onChange}/>
-          {/* <div className="RelatedTopics"></div> */}
-          <RelatedTopics query={this.state.query} relatedTopics={this.state.relatedTopics}/>
+          <RelatedTopics query={this.state.query} relatedTopics={this.state.relatedTopics} speakerMentions={this.state.speakerMentions}/>
           <ResultList query={this.state.inputText} results={results}/>
         </div>
       )

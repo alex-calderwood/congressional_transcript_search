@@ -23,14 +23,13 @@ header {
 .speaker {
   color: grey;
   font-weight: bold;
-
 }
 
 .searchForm {
   width: 80%;
   position: relative;
   margin: auto;
-  padding-bottom: 2em;
+  /* padding-bottom: 2em; */
 }
 
 .searchInput {
@@ -97,14 +96,31 @@ label {
 
 .SearchResult {
   /* width: 80%; */
+  position: relative;
   text-align: left;
-  margin-bottom: 2%;
-  /* border: 1px solid gray; */
-  padding: 10px;
-  /* border-radius: 10px; */
-  box-shadow: 1px 1px 5px;
-  background-color: white;
+  margin-bottom: 1%;
+  border: 1px solid gray;
+  padding: 2%;
+  border-radius: 5px;
+  /* box-shadow: 1px 1px 5px; */
+  /* background-color: white; */
 }
+
+.SearchResult:hover {
+  background-color: #f2fcff;
+  transition: ease-in-out 0.3s;
+}
+
+/* .SearchResult::before {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 50%;
+    left: 25%;
+    border-bottom: 1px solid grey;
+    z-index: -1;
+} */
 
 mark.query{
   padding: 0em;
@@ -115,6 +131,16 @@ mark.query{
   background-color: #eeca86;
 }
 
+a.related {
+  color: rgb(114, 114, 114);
+  background-color: rgb(192, 214, 255);
+  border-radius: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
 p {
   padding: 0px;
   margin-bottom: 0px;
@@ -123,6 +149,32 @@ p {
 
 .light {
   color: gray;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.dark {
+  font-weight: bold;
+}
+
+a.context {
+  display: block;
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+}
+
+a.context.light:hover {
+  color: #3493ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.date {
+  margin: 20px;
+  font-style: italic;
 }
 
 .react-autosuggest__container {
